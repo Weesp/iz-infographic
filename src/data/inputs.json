@@ -1,0 +1,40 @@
+{
+    "circle":{
+        "svg": "circle",
+        "inputs": {
+            "x": {
+                "label": "X",
+                "type": "number",
+                "class": "input chart-params__input",
+                "sort": 10,
+                "unit": "пикселей",
+                "value": "",
+                "name": "x-param",
+                "regular": "d{0,5000}"
+            },
+            "y": {
+                "label": "Y",
+                "type": "number",
+                "class": "input chart-params__input",
+                "sort": 10,
+                "unit": "пикселей",
+                "value": "",
+                "name": "y-param",
+                "regular": "d{0,5000}"
+            },
+            "r": {
+                "label": "Радиус",
+                "type": "number",
+                "class": "input chart-params__input",
+                "sort": 10,
+                "unit": "пикселей",
+                "value": "",
+                "name": "r-param",
+                "regular": "d{0,5000}"
+            }
+        }
+    },
+    "tamplate2":{
+
+    }
+}
