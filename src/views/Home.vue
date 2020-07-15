@@ -1,17 +1,46 @@
 <template>
 	<div class="home">
 		<nav-bar />
-		<d3-params-chart
-			v-for="(item, item_key) in items"
-			:key="item_key"
-			:block_id="item.block_id"
-			:index="item_key"
-			:items="items"
-			@addrows="addrows($event)"
-			@delrows="delrows($event)"
-		/>
+		<div class="params-workspace">
+			<h3>Параметры рабочего поля</h3>
+			<div class="params-workspace__box">
+				<div class="d3param-input__box">
+					<fieldset class="d3param-input__item">
+						<label data-v-64a15ee1="" class="d3param-input__label">
+							<b class="darkBlue">Ширина</b>
+						</label>
+						<input name="w-weight" type="number" class="input chart-params__input">
+					</fieldset>
+					<fieldset class="d3param-input__item">
+						<label data-v-64a15ee1="" class="d3param-input__label">
+							<b class="darkBlue">Высота</b>
+						</label>
+						<input name="w-height" type="number" class="input chart-params__input">
+					</fieldset>
+					<fieldset class="d3param-input__item">
+						<label data-v-64a15ee1="" class="d3param-input__label">
+							<b class="darkBlue">Фоновое изображение</b>
+						</label>
+						<input @change="previewThumbnail" type="file" name="w-image" class="chart-params__input">
+					</fieldset>
+				</div>
+			</div>
+		</div>
+		<div class="params-chart">
+			<h3>Параметры инфографики</h3>
+			<d3-params-chart
+				v-for="(item, item_key) in items"
+				:key="item_key"
+				:block_id="item.block_id"
+				:index="item_key"
+				:items="items"
+				@addrows="addrows($event)"
+				@delrows="delrows($event)"
+			/>
+		</div>
 		<d3-chart-circle
 			:items="items"
+			:workspace="workspace"
 			:template="templates['circle'].svg"
 		/>
 	</div>
@@ -37,6 +66,7 @@ export default {
 				inputs: {},
 			}],
 			range: 0,
+			workspace: {},
 			templates: Inputs
 		}
 	},
@@ -65,7 +95,26 @@ export default {
                 inputs: {},
             }];
             return false;
-        }
+		},
+		previewThumbnail(event){
+			const input = event.target;
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                const vm = this;
+                reader.onload = function(e) {
+                    vm.imageSrc = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+		}
+	},
+	watch: {
+        workspace: {
+            handler(val){
+				console.log(val);
+            },
+            deep: true
+        },
 	},
 	computed:{
         calculateElements(){
@@ -98,5 +147,38 @@ h3{
     border: 1px solid #00415e;
     color: #00415e;
     padding: 5px 10px;
+}
+.d3param-input__box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-width: 100%;
+    margin-bottom: 26px;
+    border-top: 1px solid #0093d5;
+    border-bottom: 1px solid #0093d5;
+    position: relative;
+    padding: 14px 18px;
+    box-sizing: border-box;
+}
+.d3param-input__box:after, .d3param-input__box:before {
+    content: "";
+    width: calc(100% - 2px);
+    height: 10px;
+    position: absolute;
+    left: 0;
+    border-right: 1px solid #0093d5;
+    border-left: 1px solid #0093d5;
+}
+.d3param-input__box:before {
+    top: 0;
+}
+.d3param-input__box:after {
+    bottom: 0;
+}
+.d3param-input__item {
+    margin-bottom: 15px;
+}
+.d3param-input__item:last-child {
+    margin-bottom: 0;
 }
 </style>

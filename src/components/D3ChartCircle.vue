@@ -1,8 +1,6 @@
 <template>
     <div>
-        <div ref="$wrapper">
-
-        </div>
+        <div ref="$wrapper"></div>
         <pre>{{items}}</pre>
     </div>
 </template>
@@ -21,6 +19,9 @@ export default {
         },
         template: {
             type: String
+        },
+        workspace: {
+            type: Object
         }
     },
     data() {
@@ -47,7 +48,7 @@ export default {
             const width = 500;
             const height = 500;
             const svg = this.template;
-            const duration = 500
+            const duration = 300;
 
             // создание поля Svg
             const svgData = d3Select(wrapper).selectAll('svg').data(['null data']);
@@ -55,8 +56,16 @@ export default {
             svgEnter.attr('width', width);
             svgEnter.attr('height', height);
 
+            // добавление фона
+            // <image xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="/>
+            const image = svgEnter.append('image');
+            image.attr('width', width);
+            image.attr('height', height);
+            // image.attr('src', '/src/assets/logo.png');
+            
+            //добавление обёртки g
             svgEnter.append('g');
-            //merge
+            //merge g and svg
             const svgMerge = svgData.merge(svgEnter);
             const gMerge = svgMerge.select('g');
             

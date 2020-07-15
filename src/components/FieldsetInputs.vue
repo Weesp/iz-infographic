@@ -68,12 +68,6 @@ export default {
 </script>
 
 <style scoped>
-.d3param-input__item {
-    margin-bottom: 15px;
-}
-.d3param-input__item:last-child {
-    margin-bottom: 0;
-}
 .d3param-input__label {
    max-width: 237px;
     line-height: 20px;
@@ -91,7 +85,7 @@ export default {
     font-weight: 700;
     font-size: 14px;
     line-height: 16px;
-    margin: 3px 15px 0px 0px;
+    margin: 3px 10px;
     display: inline-block;
 }
 .d3param-control__circle{
