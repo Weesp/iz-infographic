@@ -19,6 +19,24 @@
                 </select>
                 <i class="triangle selectTriangle"></i>
             </div>
+            <div v-else-if="input.type == 'group'" class="group-fields">
+                <div v-for="(group, group_key) in input.group"
+				    :key="group_key"
+                >
+                    <input v-if="group.type == 'text' || group.type == 'number'" 
+                        v-model="group.value" 
+                        :class="group.class" 
+                        :type="group.type" 
+                        :name="group.name+'['+group_key+']'"
+                    >
+                </div>
+            </div>
+            <div v-if="input.template=='peacker'"
+                class="d3param-input__item peacker d3param-control"
+                @click="peackCoord(item)"
+            >
+                Выбрать XY
+            </div>
         </fieldset>
         <fieldset class="d3param-control__box">
             <span class="d3param-control d3param-control__remove" @click="delRow(index)"><i class="d3param-control__circle">-</i> Удалить группу</span>
@@ -42,8 +60,8 @@ export default {
         index:{
             required: true
         },
-        items: {
-            type: Array
+        item: {
+            type: Object
         }
     },
     methods: {
@@ -53,16 +71,13 @@ export default {
         delRow(indexRow) {
             this.$emit('delrows', indexRow);
         },
+        peackCoord(prop){
+            this.$emit('peackcoords', prop);
+        }
         /**
          * Function for obtaining coordinates by clicking on the background image
          */
-        coordinationsInit(){
-
-        }
     },
-    mounted() {
-        this.coordinationsInit()
-    }
 }
 
 </script>

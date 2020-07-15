@@ -1,7 +1,6 @@
 <template>
     <div>
-        <div ref="$wrapper"></div>
-        <pre>{{items}}</pre>
+        <div class="chars-border" ref="$wrapper"></div>
     </div>
 </template>
 
@@ -9,7 +8,9 @@
 import {
     select as d3Select,
     scaleBand as d3ScaleBand,
-    scaleLinear as d3ScaleLinear
+    scaleLinear as d3ScaleLinear,
+    axisLeft as d3AxisLeft,
+    axisBottom as d3AxisBottom
 } from 'd3'
 export default {
     name: "d3-chart-circle",
@@ -36,43 +37,56 @@ export default {
             },
             deep: true
         },
+        workspace: {
+            handler(items){
+                this.updateChart(this.$refs.$wrapper, items);
+            },
+            deep: true
+        }
 	},
     methods: {
         updateChart (wrapper, curDatas) {
-            console.log(curDatas);
             if(!wrapper){
                 // error
                 return
             }
-
-            const width = 500;
-            const height = 500;
+            const width = this.workspace.width;
+            const height = this.workspace.height;
+            const imageBase = this.workspace.image;
             const svg = this.template;
-            const duration = 300;
+            const duration = 100;
 
             // создание поля Svg
             const svgData = d3Select(wrapper).selectAll('svg').data(['null data']);
-            const svgEnter = svgData.enter().append('svg');
-            svgEnter.attr('width', width);
-            svgEnter.attr('height', height);
+            const svgEnter = svgData.enter().append('svg')
+                .attr('width', width)
+                .attr('height', height);
 
             // добавление фона
             // <image xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="/>
-            const image = svgEnter.append('image');
-            image.attr('width', width);
-            image.attr('height', height);
-            // image.attr('src', '/src/assets/logo.png');
-            
+            svgEnter.append('image')
+                .attr('width', width)
+                .attr('height', height)
+                .attr('xlink:href', imageBase);
+
             //добавление обёртки g
-            svgEnter.append('g');
+            svgEnter.append('g').attr('class', 'bars-chart');
+
             //merge g and svg
             const svgMerge = svgData.merge(svgEnter);
-            const gMerge = svgMerge.select('g');
+            svgMerge.attr('width', width).attr('height', height);
+            const gMerge = svgMerge.select('g.bars-chart');
+            const imgMerge = svgMerge.select('image');
+            imgMerge.attr('width', width)
+                .attr('height', height)
+                .attr('xlink:href', imageBase);
             
             const elemData = gMerge.selectAll(svg).data(curDatas);
             // enter elements
+
             const elemEnter = elemData.enter()
                 .append(svg)
+                .attr('fill', (d) => d.inputs.hasOwnProperty('color') ? d.inputs.color.value : '#000000')
                 .attr('cx', (d) => d.inputs.hasOwnProperty('x') ? d.inputs.x.value : 0)
                 .attr('cy', (d) => d.inputs.hasOwnProperty('y') ? d.inputs.y.value : 0)
                 .attr('r', (d, idx) => d.inputs.hasOwnProperty('r') ? d.inputs.r.value : 0)
@@ -82,10 +96,12 @@ export default {
             elemMerge
                 .transition()
                 .duration(duration)
+                .attr('fill', (d) => d.inputs.hasOwnProperty('color') ? d.inputs.color.value : '#000000')
                 .attr('cx', (d) => d.inputs.hasOwnProperty('x') ? d.inputs.x.value : 0)
                 .attr('cy', (d) => d.inputs.hasOwnProperty('y') ? d.inputs.y.value : 0)
                 .attr('r', (d, idx) => d.inputs.hasOwnProperty('r') ? d.inputs.r.value : 0)
             
+            // gMerge.append('g').attr('class', 'axis-y').call(d3AxisLeft(width))
             // for (const key in curDatas) {
             //     const curData = curDatas[key];
             //     console.log(curData);
@@ -121,4 +137,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.chars-border{
+    display: inline-block;
+    border: 1px solid #ececec
+}
 </style>

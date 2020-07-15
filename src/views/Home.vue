@@ -9,13 +9,13 @@
 						<label data-v-64a15ee1="" class="d3param-input__label">
 							<b class="darkBlue">Ширина</b>
 						</label>
-						<input name="w-weight" type="number" class="input chart-params__input">
+						<input v-model="workspace.width" name="w-width" type="number" class="input chart-params__input">
 					</fieldset>
 					<fieldset class="d3param-input__item">
 						<label data-v-64a15ee1="" class="d3param-input__label">
 							<b class="darkBlue">Высота</b>
 						</label>
-						<input name="w-height" type="number" class="input chart-params__input">
+						<input v-model="workspace.height" name="w-height" type="number" class="input chart-params__input">
 					</fieldset>
 					<fieldset class="d3param-input__item">
 						<label data-v-64a15ee1="" class="d3param-input__label">
@@ -26,6 +26,11 @@
 				</div>
 			</div>
 		</div>
+		<d3-chart-circle
+			:items="items"
+			:workspace="workspace"
+			:template="templates['circle'].svg"
+		/>
 		<div class="params-chart">
 			<h3>Параметры инфографики</h3>
 			<d3-params-chart
@@ -34,15 +39,12 @@
 				:block_id="item.block_id"
 				:index="item_key"
 				:items="items"
+				@peackcoords="peackcoords($event)"
 				@addrows="addrows($event)"
 				@delrows="delrows($event)"
 			/>
 		</div>
-		<d3-chart-circle
-			:items="items"
-			:workspace="workspace"
-			:template="templates['circle'].svg"
-		/>
+		<pre>{{items}}</pre>
 	</div>
 </template>
 
@@ -66,7 +68,11 @@ export default {
 				inputs: {},
 			}],
 			range: 0,
-			workspace: {},
+			workspace: {
+				width: 680,
+				height: 360,
+				image: '',
+			},
 			templates: Inputs
 		}
 	},
@@ -76,6 +82,12 @@ export default {
                 block_id: params.id+1, 
                 inputs: {},
             });
+		},
+		peackcoords(params){
+			console.log(params);
+			const field = this.$el.querySelector('.chars-border');
+			field.style.cursor = "pointer";
+			console.log(field);
         },
         delrows(index) {
             if(this.items.length > 1){
@@ -99,10 +111,10 @@ export default {
 		previewThumbnail(event){
 			const input = event.target;
             if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                const vm = this;
+				const reader = new FileReader();
+				const workspace = this.workspace;
                 reader.onload = function(e) {
-                    vm.imageSrc = e.target.result;
+					workspace.image = e.target.result;
                 }
                 reader.readAsDataURL(input.files[0]);
             }
@@ -121,7 +133,7 @@ export default {
             return {
 				// x: this.item.inputs.x, 
 				// y: this.item.inputs.y,
-				// weight: this.item.inputs.weight
+				// width: this.item.inputs.width
 			};
         }
     }
@@ -176,7 +188,8 @@ h3{
     bottom: 0;
 }
 .d3param-input__item {
-    margin-bottom: 15px;
+	margin-bottom: 15px;
+	display: initial;
 }
 .d3param-input__item:last-child {
     margin-bottom: 0;

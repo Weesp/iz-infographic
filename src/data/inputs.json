@@ -20,7 +20,8 @@
                 "unit": "",
                 "value": "",
                 "name": "y-param",
-                "regular": "d{0,5000}"
+                "regular": "d{0,5000}",
+                "template": "peacker"
             },
             "r": {
                 "label": "Радиус",
@@ -31,6 +32,16 @@
                 "value": "",
                 "name": "r-param",
                 "regular": "d{0,5000}"
+            },
+            "color": {
+                "label": "Цвет",
+                "type": "text",
+                "class": "input chart-params__input",
+                "sort": 10,
+                "unit": "",
+                "value": "#000000",
+                "name": "color-param",
+                "regular": ""
             }
         }
     },

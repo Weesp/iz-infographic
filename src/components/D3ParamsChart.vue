@@ -6,7 +6,8 @@
 					:index="index" 
 					:inputs="item.inputs"
 					:block_id="item.id"
-					:items="items"
+					:item="item"
+					@peackcoords="peackcoords($event)"
 					@addrows="addrows($event)"
 					@delrows="delrows($event)"
 				></fieldset-inputs>
@@ -53,6 +54,15 @@ export default {
 				let check = true;
 				for (let index = 0; index < keysInputs.length; index++) {
 					let key = keysInputs[index];
+					// if(inputs[key].group){
+					// 	for (let index = 0; index < inputs[key].group.length; index++) {
+					// 		const element = inputs[key].group[index];
+					// 		if(!element.value){
+					// 			check = false;
+					// 			break;
+					// 		}
+					// 	}
+					// }
 					if(!inputs[key].value){
 						check = false;
 						break;
@@ -75,6 +85,9 @@ export default {
         delrows(prop){
             this.$emit('delrows', prop);
 		},
+		peackcoords(prop){
+            this.$emit('peackcoords', prop);
+        }
 	}
 }
 </script>
