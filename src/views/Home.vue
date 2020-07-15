@@ -18,7 +18,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import NavBar from '@/components/NavBar.vue'
 import D3ParamsChart from '@/components/D3ParamsChart.vue'
 import D3ChartCircle from '@/components/D3ChartCircle.vue'
@@ -51,10 +50,13 @@ export default {
         delrows(index) {
             if(this.items.length > 1){
                 if (confirm("Вы действительно хотите удалить параметр с карты?")){
+					// error не удаляет svg !!! fix
                     this.items.splice(index, 1);
                 }
             }else{
-                console.log("error: Удаление невозможно - достигнуто минимальное количество элементов.");
+				if (confirm("error: Удаление невозможно - достигнуто минимальное количество элементов.")){
+					console.log("error: Удаление невозможно - достигнуто минимальное количество элементов.");
+				}
             }
         },
         allReset() {
@@ -78,5 +80,23 @@ export default {
 </script>
 
 <style>
-
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+h3{
+	color: #0093d5;
+    margin: 15px 0;
+    font-size: 20px;
+}
+.darkBlue {
+    color: #00415e;
+}
+.input, .textarea {
+    background: #fff;
+    border: 1px solid #00415e;
+    color: #00415e;
+    padding: 5px 10px;
+}
 </style>

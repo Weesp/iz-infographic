@@ -5,9 +5,9 @@
             "x": {
                 "label": "X",
                 "type": "number",
-                "class": "input chart-params__input",
+                "class": "input chart-params__input coordinates",
                 "sort": 10,
-                "unit": "пикселей",
+                "unit": "",
                 "value": "",
                 "name": "x-param",
                 "regular": "d{0,5000}"
@@ -15,9 +15,9 @@
             "y": {
                 "label": "Y",
                 "type": "number",
-                "class": "input chart-params__input",
+                "class": "input chart-params__input coordinates",
                 "sort": 10,
-                "unit": "пикселей",
+                "unit": "",
                 "value": "",
                 "name": "y-param",
                 "regular": "d{0,5000}"
@@ -27,7 +27,7 @@
                 "type": "number",
                 "class": "input chart-params__input",
                 "sort": 10,
-                "unit": "пикселей",
+                "unit": "",
                 "value": "",
                 "name": "r-param",
                 "regular": "d{0,5000}"
