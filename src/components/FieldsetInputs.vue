@@ -19,7 +19,7 @@
                 </select>
                 <i class="triangle selectTriangle"></i>
             </div>
-            <div v-else-if="input.type == 'group'" class="group-fields">
+            <!--div v-else-if="input.type == 'group'" class="group-fields">
                 <div v-for="(group, group_key) in input.group"
 				    :key="group_key"
                 >
@@ -30,7 +30,7 @@
                         :name="group.name+'['+group_key+']'"
                     >
                 </div>
-            </div>
+            </div-->
             <!--div v-if="input.template=='peacker'"
                 class="d3param-input__item peacker d3param-control"
                 @click="peackCoord(item)"

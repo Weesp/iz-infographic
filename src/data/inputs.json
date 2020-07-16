@@ -9,8 +9,7 @@
                 "sort": 10,
                 "unit": "",
                 "value": "",
-                "name": "x-param",
-                "regular": "d{0,5000}"
+                "name": "x-param"
             },
             "y": {
                 "label": "Y",
@@ -20,7 +19,6 @@
                 "unit": "",
                 "value": "",
                 "name": "y-param",
-                "regular": "d{0,5000}",
                 "template": "peacker"
             },
             "r": {
@@ -30,8 +28,7 @@
                 "sort": 10,
                 "unit": "",
                 "value": "",
-                "name": "r-param",
-                "regular": "d{0,5000}"
+                "name": "r-param"
             },
             "color": {
                 "label": "Цвет",
@@ -40,8 +37,16 @@
                 "sort": 10,
                 "unit": "",
                 "value": "#000000",
-                "name": "color-param",
-                "regular": ""
+                "name": "color-param"
+            },
+            "value":{
+                "label": "Значение",
+                "type": "text",
+                "class": "input chart-params__input",
+                "sort": 10,
+                "unit": "",
+                "value": "",
+                "name": "val-param"
             }
         }
     },

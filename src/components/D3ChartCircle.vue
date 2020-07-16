@@ -46,6 +46,7 @@ export default {
 	},
     methods: {
         updateChart (wrapper, curDatas) {
+            // d3 constructor
             if(!wrapper){
                 // error
                 return
@@ -55,6 +56,7 @@ export default {
             const imageBase = this.workspace.image;
             const svg = this.template;
             const duration = 100;
+            const stroke = 2;
 
             // создание поля Svg
             const svgData = d3Select(wrapper).selectAll('svg').data(['null data']);
@@ -86,23 +88,64 @@ export default {
 
             const elemEnter = elemData.enter()
                 .append(svg)
-                .attr('class', (d, idx) => 'item-control__' + idx)
+                .attr('class', (d, idx) => 'chart-item item-control__' + idx)
                 .attr('fill', (d) => d.inputs.hasOwnProperty('color') ? d.inputs.color.value : '#000000')
                 .attr('cx', (d) => d.inputs.hasOwnProperty('x') && d.inputs.x.value ? d.inputs.x.value : 0)
                 .attr('cy', (d) => d.inputs.hasOwnProperty('y') && d.inputs.y.value ? d.inputs.y.value : 0)
                 .attr('r', (d, idx) => d.inputs.hasOwnProperty('r') && d.inputs.r.value ? d.inputs.r.value : 0)
+                .attr('stroke', '#ffffff')
+                .attr('stroke-width', stroke)
 
             // merge elements
             const elemMerge = elemData.merge(elemEnter);
             elemMerge
                 .transition()
                 .duration(duration)
-                .attr('class', (d, idx) => 'item-control__' + idx)
+                .attr('class', (d, idx) => 'chart-item item-control__' + idx)
                 .attr('fill', (d) => d.inputs.hasOwnProperty('color') ? d.inputs.color.value : '#000000')
-                .attr('cx', (d) => d.inputs.hasOwnProperty('x') && d.inputs.x.value ? d.inputs.x.value : 0)
-                .attr('cy', (d) => d.inputs.hasOwnProperty('y') && d.inputs.y.value ? d.inputs.y.value : 0)
-                .attr('r', (d, idx) => d.inputs.hasOwnProperty('r') && d.inputs.r.value ? d.inputs.r.value : 0)
+                .attr('cx', (d) => d.inputs.hasOwnProperty('x') && d.inputs.x.value ? +d.inputs.x.value : 0)
+                .attr('cy', (d) => d.inputs.hasOwnProperty('y') && d.inputs.y.value ? +d.inputs.y.value : 0)
+                .attr('r', function(d){
+                    return +d.inputs.r.value + stroke / 2
+                })
+                // .attr('stroke', '#ffffff')
+                // .attr('stroke-width', '2')
             
+
+            //texts
+            const textData = gMerge.selectAll('text').data(curDatas);
+            //text enter
+            const textEnter = textData.enter()
+                .append('text')
+                .attr('class', (d, idx) => 'chart-value value-control__' + idx)
+                .attr('fill', '#ffffff')
+                .attr("x", (d) => d.inputs.hasOwnProperty('x') && d.inputs.x.value ? d.inputs.x.value : 0)
+                .attr("y", (d) => d.inputs.hasOwnProperty('y') && d.inputs.y.value ? d.inputs.y.value : 0)
+                .text((d) => d.inputs.hasOwnProperty('value') && d.inputs.value.value ? d.inputs.value.value : '')
+
+            // text marge
+            const textMerge = textData.merge(textEnter);
+            textMerge
+                .transition()
+                .duration(duration)
+                .attr('class', (d, idx) => 'chart-value value-control__' + idx)
+                .attr('fill', '#ffffff')
+                .attr("x", (d) => d.inputs.hasOwnProperty('x') && d.inputs.x.value ? d.inputs.x.value : 0)
+                .attr("y", (d) => d.inputs.hasOwnProperty('y') && d.inputs.y.value ? d.inputs.y.value : 0)
+                .attr("dx", (d) => -d.inputs.r.value / (d.inputs.value.value.length > 1 ? 1.5 : 3))
+                .attr("dy", (d) => d.inputs.r.value / (d.inputs.value.value.length > 1 ? d.inputs.value.value.length + 1 : d.inputs.value.value.length + 2))
+                .text((d) => d.inputs.hasOwnProperty('value') && d.inputs.value.value ? d.inputs.value.value : '')
+                .attr("font-size", (d) => 
+                    d.inputs.hasOwnProperty('value') && d.inputs.value.value
+                        ? (d.inputs.value.value.length > 1 
+                            ? d.inputs.r.value * 2.5 / d.inputs.value.value.length
+                            : d.inputs.r.value / d.inputs.value.value.length
+                        )
+                        : ''
+                    )
+
+            // const elemSelect = 
+
             // gMerge.append('g').attr('class', 'axis-y').call(d3AxisLeft(width))
             // for (const key in curDatas) {
             //     const curData = curDatas[key];
@@ -142,5 +185,11 @@ export default {
 .chars-border{
     display: inline-block;
     border: 1px solid #ececec
+}
+.chart-value{
+
+}
+.chart-item{
+
 }
 </style>
