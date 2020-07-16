@@ -29,16 +29,17 @@
 		<d3-chart-circle
 			:items="items"
 			:workspace="workspace"
-			:template="templates['circle'].svg"
+			:template="template['circle'].svg"
 		/>
 		<div class="params-chart">
-			<h3>Параметры инфографики</h3>
+			<span class="d3param-control d3param-control__add" @click="addRow"><i class="d3param-control__circle">+</i> Добавить инфографик</span>
+			<!--h3>Параметры инфографики</h3-->
 			<d3-params-chart
 				v-for="(item, item_key) in items"
 				:key="item_key"
 				:block_id="item.block_id"
 				:index="item_key"
-				:items="items"
+				:item="item"
 				@peackcoords="peackcoords($event)"
 				@addrows="addrows($event)"
 				@delrows="delrows($event)"
@@ -54,6 +55,7 @@ import D3ParamsChart from '@/components/D3ParamsChart.vue'
 import D3ChartCircle from '@/components/D3ChartCircle.vue'
 import Inputs from '@/data/inputs.json'
 
+
 export default {
 	name: 'Home',
 	components: {
@@ -65,22 +67,24 @@ export default {
 		return {
 			items: [{
 				block_id: 0,
-				inputs: {},
+				inputs: JSON.parse(JSON.stringify(Inputs["circle"].inputs)),
 			}],
-			range: 0,
 			workspace: {
 				width: 680,
 				height: 360,
 				image: '',
 			},
-			templates: Inputs
+			templates: Object.keys(Inputs),
+			template: Inputs,
+			index: 0,
+			ids: [],
 		}
 	},
 	methods: {
-        addrows(params){
-            this.items.push({
-                block_id: params.id+1, 
-                inputs: {},
+        addRow(){
+            this.items.unshift({
+                block_id: ++this.index, 
+                inputs: JSON.parse(JSON.stringify(Inputs["circle"].inputs)),
             });
 		},
 		peackcoords(params){
@@ -90,10 +94,11 @@ export default {
 			console.log(field);
         },
         delrows(index) {
+			console.log(index);
             if(this.items.length > 1){
                 if (confirm("Вы действительно хотите удалить параметр с карты?")){
-					// error не удаляет svg !!! fix
-                    this.items.splice(index, 1);
+					this.items.splice(index, 1);
+					this.$el.querySelector('.item-control__' + index).remove();
                 }
             }else{
 				if (confirm("error: Удаление невозможно - достигнуто минимальное количество элементов.")){
@@ -126,7 +131,7 @@ export default {
 				console.log(val);
             },
             deep: true
-        },
+		},
 	},
 	computed:{
         calculateElements(){
@@ -135,12 +140,22 @@ export default {
 				// y: this.item.inputs.y,
 				// width: this.item.inputs.width
 			};
-        }
+		},
+		// reverseItems() {
+        // 	return this.items.slice().reverse();
+		// },
+		showDialogCancelMatch() {
+			return this.$store.state.reverseItems;
+		}
     }
 }
 </script>
 
 <style>
+body{
+	max-width: 930px;
+    margin: 0px auto;
+}
 fieldset {
     border: 0;
     margin: 0;
@@ -193,5 +208,32 @@ h3{
 }
 .d3param-input__item:last-child {
     margin-bottom: 0;
+}
+.d3param-control {
+    cursor: pointer;
+    color: #0093d5;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+    margin: 3px 10px;
+    display: inline-block;
+}
+.d3param-control__circle{
+    background: #0093d5;
+    color: #fff;
+    border-radius: 50%;
+    font-weight: 700;
+    width: 22px;
+    padding: 3px 0;
+    display: inline-block;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    margin-right: 5px;
+    line-height: 15px;
+    cursor: pointer;
+}
+.params-chart .d3param-control__add{
+	margin: 15px 0px;
 }
 </style>

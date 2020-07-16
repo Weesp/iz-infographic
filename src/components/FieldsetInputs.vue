@@ -31,16 +31,15 @@
                     >
                 </div>
             </div>
-            <div v-if="input.template=='peacker'"
+            <!--div v-if="input.template=='peacker'"
                 class="d3param-input__item peacker d3param-control"
                 @click="peackCoord(item)"
             >
                 Выбрать XY
-            </div>
+            </div-->
         </fieldset>
         <fieldset class="d3param-control__box">
-            <span class="d3param-control d3param-control__remove" @click="delRow(index)"><i class="d3param-control__circle">-</i> Удалить группу</span>
-            <span class="d3param-control d3param-control__add" @click="addRow"><i class="d3param-control__circle">+</i> Добавить группу</span>
+            <span class="d3param-control d3param-control__remove" @click="delRow(index)"><i class="d3param-control__circle">-</i> Удалить </span>
         </fieldset>
     </div>
 </template>
@@ -65,9 +64,6 @@ export default {
         }
     },
     methods: {
-        addRow() {
-            this.$emit('addrows', {index:this.index, id:this.block_id});
-        },
         delRow(indexRow) {
             this.$emit('delrows', indexRow);
         },
@@ -93,29 +89,5 @@ export default {
 }
 .coordinates{
     width: 65px;
-}
-.d3param-control {
-    cursor: pointer;
-    color: #0093d5;
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 16px;
-    margin: 3px 10px;
-    display: inline-block;
-}
-.d3param-control__circle{
-    background: #0093d5;
-    color: #fff;
-    border-radius: 50%;
-    font-weight: 700;
-    width: 22px;
-    padding: 3px 0;
-    display: inline-block;
-    text-align: center;
-    font-size: 14px;
-    font-style: normal;
-    margin-right: 5px;
-    line-height: 15px;
-    cursor: pointer;
 }
 </style>

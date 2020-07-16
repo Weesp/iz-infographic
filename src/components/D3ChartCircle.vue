@@ -86,20 +86,22 @@ export default {
 
             const elemEnter = elemData.enter()
                 .append(svg)
+                .attr('class', (d, idx) => 'item-control__' + idx)
                 .attr('fill', (d) => d.inputs.hasOwnProperty('color') ? d.inputs.color.value : '#000000')
-                .attr('cx', (d) => d.inputs.hasOwnProperty('x') ? d.inputs.x.value : 0)
-                .attr('cy', (d) => d.inputs.hasOwnProperty('y') ? d.inputs.y.value : 0)
-                .attr('r', (d, idx) => d.inputs.hasOwnProperty('r') ? d.inputs.r.value : 0)
+                .attr('cx', (d) => d.inputs.hasOwnProperty('x') && d.inputs.x.value ? d.inputs.x.value : 0)
+                .attr('cy', (d) => d.inputs.hasOwnProperty('y') && d.inputs.y.value ? d.inputs.y.value : 0)
+                .attr('r', (d, idx) => d.inputs.hasOwnProperty('r') && d.inputs.r.value ? d.inputs.r.value : 0)
 
             // merge elements
             const elemMerge = elemData.merge(elemEnter);
             elemMerge
                 .transition()
                 .duration(duration)
+                .attr('class', (d, idx) => 'item-control__' + idx)
                 .attr('fill', (d) => d.inputs.hasOwnProperty('color') ? d.inputs.color.value : '#000000')
-                .attr('cx', (d) => d.inputs.hasOwnProperty('x') ? d.inputs.x.value : 0)
-                .attr('cy', (d) => d.inputs.hasOwnProperty('y') ? d.inputs.y.value : 0)
-                .attr('r', (d, idx) => d.inputs.hasOwnProperty('r') ? d.inputs.r.value : 0)
+                .attr('cx', (d) => d.inputs.hasOwnProperty('x') && d.inputs.x.value ? d.inputs.x.value : 0)
+                .attr('cy', (d) => d.inputs.hasOwnProperty('y') && d.inputs.y.value ? d.inputs.y.value : 0)
+                .attr('r', (d, idx) => d.inputs.hasOwnProperty('r') && d.inputs.r.value ? d.inputs.r.value : 0)
             
             // gMerge.append('g').attr('class', 'axis-y').call(d3AxisLeft(width))
             // for (const key in curDatas) {
