@@ -122,7 +122,7 @@ export default {
                 .attr("x", (d) => d.inputs.hasOwnProperty('x') && d.inputs.x.value ? d.inputs.x.value : 0)
                 .attr("y", (d) => d.inputs.hasOwnProperty('y') && d.inputs.y.value ? d.inputs.y.value : 0)
                 .text((d) => d.inputs.hasOwnProperty('value') && d.inputs.value.value ? d.inputs.value.value : '')
-
+                // .attr('font-family', 'Leckerli One, cursive')
             // text marge
             const textMerge = textData.merge(textEnter);
             textMerge
