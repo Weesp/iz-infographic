@@ -236,4 +236,12 @@ h3{
 .params-chart .d3param-control__add{
 	margin: 15px 0px;
 }
+.d3param-input__label {
+   max-width: 237px;
+    line-height: 20px;
+    display: inline-block;
+    min-width: 30px;
+    padding: 0px 10px;
+    vertical-align: middle;
+}
 </style>

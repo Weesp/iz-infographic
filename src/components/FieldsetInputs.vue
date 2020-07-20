@@ -79,14 +79,6 @@ export default {
 </script>
 
 <style scoped>
-.d3param-input__label {
-   max-width: 237px;
-    line-height: 20px;
-    display: inline-block;
-    min-width: 30px;
-    padding: 0px 10px;
-    vertical-align: middle;
-}
 .coordinates{
     width: 65px;
 }

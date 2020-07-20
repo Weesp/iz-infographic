@@ -27,7 +27,7 @@
                 "class": "input chart-params__input",
                 "sort": 10,
                 "unit": "",
-                "value": "",
+                "value": 50,
                 "name": "r-param"
             },
             "color": {
